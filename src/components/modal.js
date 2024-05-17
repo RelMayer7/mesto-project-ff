@@ -15,7 +15,6 @@ export function modalImageOpen(image, modal) {
 
 export function modalCloseEventListenner (modal) {
   const closeButton = modal.querySelector('.popup__close');
-  console.log(modal);
   closeButton.addEventListener('click', () => modalClose(modal));
 }
 

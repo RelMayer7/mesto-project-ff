@@ -8,8 +8,6 @@ const placesList = document.querySelector('.places__list');
 
 initialCards.forEach((item) => placesList.append(createCard(item, deleteCard, likeCard, modalImageOpen)));
 
-
-//Modal -------------------------------------------------------------------------------------------------->
 const popupProfile = document.querySelector('.popup_type_edit');
 const popupNewCard = document.querySelector('.popup_type_new-card');
 const popupImage = document.querySelector('.popup_type_image');
