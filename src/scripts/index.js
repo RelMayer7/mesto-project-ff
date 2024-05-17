@@ -1,33 +1,25 @@
 import '../pages/index.css';
-import {initialCards} from './cards';
+import {initialCards, createCard, deleteCard, likeCard} from '../components/cards.js';
+import {modalOpenEventListenner, modalCloseEventListenner, modalImageOpen} from '../components/modal.js';
+export {placesList}
 
-// @todo: Темплейт карточки
-const cardTemplate = document.querySelector('#card-template').content;
 
-// @todo: DOM узлы
 const placesList = document.querySelector('.places__list');
 
-// @todo: Функция создания карточки
-function createCard (link, name, deleteCard) {
-  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
+initialCards.forEach((item) => placesList.append(createCard(item, deleteCard, likeCard, modalImageOpen)));
 
-  const cardImage = cardElement.querySelector('.card__image');
-  const cardTitle = cardElement.querySelector('.card__title');
-  const deleteButton = cardElement.querySelector('.card__delete-button');
 
-  cardImage.src = link;
-  cardImage.alt = name;
-  cardTitle.textContent = name;
+//Modal -------------------------------------------------------------------------------------------------->
+const popupProfile = document.querySelector('.popup_type_edit');
+const popupNewCard = document.querySelector('.popup_type_new-card');
+const popupImage = document.querySelector('.popup_type_image');
 
-  deleteButton.addEventListener('click', () => deleteCard(cardElement));
+const openProfileEditButton = document.querySelector('.profile__edit-button');
+const openProfileAddButton = document.querySelector('.profile__add-button');
 
-  return cardElement;
-}
+modalOpenEventListenner(openProfileEditButton, popupProfile);
+modalOpenEventListenner(openProfileAddButton, popupNewCard);
 
-// @todo: Функция удаления карточки
-function deleteCard (card) {
-  card.remove();
-}
-
-// @todo: Вывести карточки на страницу
-initialCards.forEach((item) => placesList.append(createCard(item.link, item.name, deleteCard)));
+modalCloseEventListenner(popupProfile);
+modalCloseEventListenner(popupNewCard);
+modalCloseEventListenner(popupImage);
