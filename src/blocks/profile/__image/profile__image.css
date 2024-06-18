@@ -7,6 +7,26 @@
   background-size: cover;
   background-position: center;
   margin: 0 29px 0 0;
+  cursor: pointer;
+  position: relative;
+}
+
+.profile__image:hover:before {
+  content: '';
+  position: absolute;
+  inline-size: 100%;
+  block-size: 100%;
+  background-color: rgba(0 0 0 / 0.8);
+}
+
+.profile__image:hover:after {
+  content: '';
+  position: absolute;
+  background: no-repeat center url('../../../images/avatar-edit.svg');
+  inline-size: 26px;
+  block-size: 26px;
+  top: 47px;
+  left: 47px;
 }
 
 @media screen and (max-width: 740px) {
