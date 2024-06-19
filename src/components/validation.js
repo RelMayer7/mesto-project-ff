@@ -80,10 +80,6 @@ export function clearValidation(formElement, validationElements) {
   })
 
   const buttonElement = formElement.querySelector(validationElements.submitButtonSelector);
-  buttonInactive(buttonElement, validationElements);
-}
-
-function buttonInactive(buttonElement, validationElements) {
   buttonElement.disabled = true;
   buttonElement.classList.add(validationElements.inactiveButtonClass);
 }

@@ -16,11 +16,11 @@ export function createCard (item, deleteCard, likeCard, openImageModal, currentU
     deleteButton.hidden = true;
   }
 
+  const cardId = item._id;
   cardImage.src = item.link;
   cardImage.alt = item.name;
   cardTitle.textContent = item.name;
   cardNumberOfLikes.textContent = item.likes.length;
-  const cardId = item._id;
 
   const likeIt = item.likes.some(like => like._id === currentUserId);
   if (likeIt) {
