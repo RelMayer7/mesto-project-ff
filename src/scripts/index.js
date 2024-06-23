@@ -1,8 +1,8 @@
 import '../pages/index.css';
-import {createCard, deleteCard, likeCard} from '../components/card.js';
+import {createCard, deleteCard, changeLike} from '../components/card.js';
 import {modalOpen, modalClose} from '../components/modal.js';
 import {enableValidation, validationElements, clearValidation} from '../components/validation.js';
-import {getUserData, getCards, editProfileInformation, sendNewCard, updateProfileAvatar} from '../components/api.js';
+import {getUserData, getCards, editProfileInformation, sendNewCard, updateProfileAvatar, removeLike, putLikeCard, deleteCardRequest} from '../components/api.js';
 import {
   popups, profileFormElement, formAddCard, avatarFormElement, 
   profileTitle, profileDescription, profileImage, nameInput, 
@@ -34,7 +34,7 @@ Promise.all([getUserData(), getCards()])
     const currentUserId = userData._id;
     
     cards.forEach(item => {
-      placesList.append(createCard(item, deleteCard, likeCard, openImageModal, currentUserId))
+      placesList.append(createCard(item, handleDeleteCard, openImageModal, currentUserId, handleLikeCard))
     })
   })
   .catch(err => {
@@ -115,7 +115,7 @@ function handleFormAddCardSubmit(event) {
     sendNewCard(newCard)
     .then(newCard => {
       const currentUserId = newCard.owner._id;
-      placesList.prepend(createCard(newCard, deleteCard, likeCard, openImageModal, currentUserId));
+      placesList.prepend(createCard(newCard, handleDeleteCard, openImageModal, currentUserId, handleLikeCard));
       formAddCard.reset();
     })
     .catch(err => {
@@ -149,4 +149,23 @@ function handleAvatarFormSubmit(event) {
 
 function renderLoading(button, status) {
     button.textContent = status;
+}
+
+function handleLikeCard(status, cardNumberOfLikes, cardLikeButton, cardId) {
+  if (!status) {
+    putLikeCard(cardId)
+      .then(res => changeLike(res, cardNumberOfLikes, cardLikeButton))
+      .catch(err => console.log(err))
+  }
+  else {
+    removeLike(cardId)
+    .then(res => changeLike(res, cardNumberOfLikes, cardLikeButton))
+    .catch(err => console.log(err))
+  }
+}
+
+function handleDeleteCard (card, cardId) {
+  deleteCardRequest(cardId)
+  .then(() => deleteCard(card))
+  .catch(err => console.log(err))
 }
