@@ -1,6 +1,3 @@
-// Токен: a8cb1b2a-4431-497b-bdfb-7d64af336a26
-// Идентификатор группы: wff-cohort-15
-
 const config = {
   baseUrl: 'https://nomoreparties.co/v1/wff-cohort-15',
   headers: {
@@ -9,17 +6,16 @@ const config = {
   }
 }
 
+function checkResponse(res) {
+  return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+}
+
 export function getUserData(){
   return fetch(`${config.baseUrl}/users/me`, {
     method: 'GET',
     headers: config.headers,
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Не удалось получить информцию о профиле: ${res.status}`);
-  })
+  .then(res => checkResponse(res));
 }
 
 export function getCards() {
@@ -27,12 +23,7 @@ export function getCards() {
     method: 'GET',
     headers: config.headers,
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Не удалось загрузить карточки: ${res.status}`);
-  })
+  .then(res => checkResponse(res));
 }
 
 export function editProfileInformation(name, about) {
@@ -41,12 +32,7 @@ export function editProfileInformation(name, about) {
     headers: config.headers,
     body: JSON.stringify({name, about})
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Не удалось обновить информацию о профиле: ${res.status}`);
-  })
+  .then(res => checkResponse(res));
 }
 
 export function sendNewCard(newCard) {
@@ -55,12 +41,7 @@ export function sendNewCard(newCard) {
     headers: config.headers,
     body: JSON.stringify(newCard),
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Не удалось отправить карточку: ${res.status}`);
-  })
+  .then(res => checkResponse(res));
 }
 
 export function deleteCardRequest(cardId){
@@ -68,38 +49,23 @@ export function deleteCardRequest(cardId){
     method: 'DELETE',
     headers: config.headers,
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Не удалось удалить карточку: ${res.status}`);
-  })
+  .then(res => checkResponse(res));
 }
 
-export function addLike(cardId){
+export function putLikeCard(cardId){
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`,{
     method: 'PUT',
     headers: config.headers,
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Не удалось поставить лайк карточке: ${res.status}`);
-  })
+  .then(res => checkResponse(res));
 }
 
 export function removeLike(cardId){
 return fetch(`${config.baseUrl}/cards/likes/${cardId}`,{
-  method: 'DELETE',
-  headers: config.headers,
-})
-.then(res => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Не удалось удалить лайк карточки: ${res.status}`);
-})
+    method: 'DELETE',
+    headers: config.headers,
+  })
+  .then(res => checkResponse(res));
 }
 
 export function updateProfileAvatar(avatar){
@@ -108,10 +74,5 @@ export function updateProfileAvatar(avatar){
     headers: config.headers,
     body: JSON.stringify(avatar),
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Не удалось изменить аватар профиля: ${res.status}`);
-  })
+  .then(res => checkResponse(res));
 }

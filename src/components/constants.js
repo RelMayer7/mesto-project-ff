@@ -1,7 +1,7 @@
 export {profileFormElement, nameInput, jobInput,
         profileTitle, profileDescription, profileImage,
-        addCardFormElement, linkInput, placeNameinput,
-        popups, avatarFormElement, linkAvatarinput}
+        formAddCard, linkInput, placeNameinput,
+        popups, avatarFormElement, linkAvatarinput, renderLoadingStatus}
 
 const popups = document.querySelectorAll('.popup');
 
@@ -12,9 +12,14 @@ const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
 const profileImage = document.querySelector('.profile__image');
 
-const addCardFormElement = document.forms['new-place'];
-const linkInput = addCardFormElement.elements.link;
-const placeNameinput = addCardFormElement.elements['place-name'];
+const formAddCard = document.forms['new-place'];
+const linkInput = formAddCard.elements.link;
+const placeNameinput = formAddCard.elements['place-name'];
 
 const avatarFormElement = document.forms['edit-avatar'];
 const linkAvatarinput = avatarFormElement.elements.avatar;
+
+const renderLoadingStatus = {
+        saving : 'Сохранение...',
+        save : 'Сохранить'
+      }

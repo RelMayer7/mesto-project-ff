@@ -1,4 +1,4 @@
-import { deleteCardRequest, removeLike, addLike } from "./api.js";
+import { deleteCardRequest, removeLike, putLikeCard } from "./api.js";
 
 const cardTemplate = document.querySelector('#card-template').content;
 
@@ -8,6 +8,8 @@ export function createCard (item, deleteCard, likeCard, openImageModal, currentU
   const cardImage = cardElement.querySelector('.card__image');
   const cardTitle = cardElement.querySelector('.card__title');
   const modalImage = document.querySelector('.popup_type_image');
+  const popupImage = modalImage.querySelector('.popup__image');
+  const popupCaption = modalImage.querySelector('.popup__caption');
   const cardNumberOfLikes = cardElement.querySelector('.card__number-of-likes');
   const deleteButton = cardElement.querySelector('.card__delete-button');
   const cardLikeButton = cardElement.querySelector('.card__like-button');
@@ -29,7 +31,7 @@ export function createCard (item, deleteCard, likeCard, openImageModal, currentU
 
   cardLikeButton.addEventListener('click', () => likeCard(cardLikeButton, cardId, cardNumberOfLikes));
   deleteButton.addEventListener('click', () => deleteCard(cardElement, cardId));
-  cardImage.addEventListener('click', () => openImageModal(cardImage, modalImage));
+  cardImage.addEventListener('click', () => openImageModal(cardImage, modalImage, popupImage, popupCaption));
 
   return cardElement;
 }
@@ -48,7 +50,7 @@ export function likeCard(cardLikeButton, cardId, cardNumberOfLikes){
       });
   }
   else {
-    addLike(cardId)
+    putLikeCard(cardId)
       .then(res => {
         cardLikeButton.classList.add('card__like-button_is-active');
         cardNumberOfLikes.textContent = res.likes.length;
