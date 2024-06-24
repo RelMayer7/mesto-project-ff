@@ -1,6 +1,6 @@
 import '../pages/index.css';
 import {createCard, deleteCard, changeLike} from '../components/card.js';
-import {modalOpen, modalClose} from '../components/modal.js';
+import {openModal, closeModal} from '../components/modal.js';
 import {enableValidation, validationElements, clearValidation} from '../components/validation.js';
 import {getUserData, getCards, editProfileInformation, sendNewCard, updateProfileAvatar, removeLike, putLikeCard, deleteCardRequest} from '../components/api.js';
 import {
@@ -46,7 +46,7 @@ Promise.all([getUserData(), getCards()])
 function openAddCardModal (button, modal, validationElements, formAddCard) {
   button.addEventListener('click', () => {
     formAddCard.reset();
-    modalOpen(modal);
+    openModal(modal);
     clearValidation(formAddCard, validationElements);
 });
 }
@@ -54,7 +54,7 @@ function openAddCardModal (button, modal, validationElements, formAddCard) {
 function openProfileModal (button, modal, validationElements, profileFormElement) {
   button.addEventListener('click', () => {
     fillOutTheProfileForm();
-    modalOpen(modal);
+    openModal(modal);
     clearValidation(profileFormElement, validationElements);
   });
 }
@@ -62,7 +62,7 @@ function openProfileModal (button, modal, validationElements, profileFormElement
 function openProfileAvatarModal (button, modal, validationElements, avatarFormElement) {
   button.addEventListener('click', () => {
     avatarFormElement.reset();
-    modalOpen(modal);
+    openModal(modal);
     clearValidation(avatarFormElement, validationElements);
   })
 }
@@ -71,14 +71,14 @@ function openImageModal (image, modal, popupImage, popupCaption) {
   popupImage.src = image.src;
   popupImage.alt = image.alt;
   popupCaption.textContent = image.alt;
-  modalOpen(modal);
+  openModal(modal);
 }
 
 popups.forEach((modal) => {
   modal.classList.add('popup_is-animated');
   modal.addEventListener('click', (event) => {
     if (event.target === event.currentTarget || event.target.classList.contains('popup__close')) {
-      modalClose(modal);
+      closeModal(modal);
     }
   })
 })
@@ -95,13 +95,13 @@ function handleProfileFormSubmit(event) {
     .then(() => {
       profileTitle.textContent = nameInput.value;
       profileDescription.textContent = jobInput.value;
+      closeModal(popupProfile);
     })
     .catch(err => {
       console.log(err);
     })
     .finally(() => {
       renderLoading(event.submitter, renderLoadingStatus.save);
-      modalClose(popupProfile);
     })
 }
 
@@ -117,13 +117,13 @@ function handleFormAddCardSubmit(event) {
       const currentUserId = newCard.owner._id;
       placesList.prepend(createCard(newCard, handleDeleteCard, openImageModal, currentUserId, handleLikeCard));
       formAddCard.reset();
+      closeModal(popupNewCard);
     })
     .catch(err => {
       console.log(err);
     })
     .finally(() => {
       renderLoading(event.submitter, renderLoadingStatus.save);
-      modalClose(popupNewCard);
     })
 }
 
@@ -137,13 +137,13 @@ function handleAvatarFormSubmit(event) {
     .then(avatar => {
       profileImage.style.backgroundImage = `url('${avatar.avatar}')`
       avatarFormElement.reset();
+      closeModal(popupAvatar);
     })
     .catch(err => {
       console.log(err);
     })
     .finally(() => {
       renderLoading(event.submitter, renderLoadingStatus.save);
-      modalClose(popupAvatar);
     })
 }
 
